@@ -6,13 +6,19 @@ using UnityEngine;
 */
 public class ShowUI : MonoBehaviour {
 
-    public GameObject[] uiObject;
+    private GameObject UIs;
+    private Transform[] uiObjects;
+
     void Start()
     {
-    	for (int i = 0; i < uiObject.Length; i++) {
-    		uiObject[i].transform.GetChild(1).gameObject.SetActive(false);
+        UIs = GameObject.Find("UIs");
+        uiObjects = GetTopLevelChildren(UIs.transform);
+
+    	for (int i = 0; i < uiObjects.Length; i++) {
+    		uiObjects[i].GetChild(1).gameObject.SetActive(false);
     	}
     }
+
 	// Update is called once per frame
 	void OnCollisionEnter(Collision collision)
     {
@@ -23,10 +29,20 @@ public class ShowUI : MonoBehaviour {
             StartCoroutine(WaitForSec(collision));
         }
 	}
+
     IEnumerator WaitForSec(Collision collision)
     {
         yield return new WaitForSeconds(5);
         Destroy(collision.gameObject.transform.parent.gameObject);
     }
     
+     private static Transform[] GetTopLevelChildren(Transform Parent)
+     {
+         Transform[] Children = new Transform[Parent.childCount];
+         for (int ID = 0; ID < Parent.childCount; ID++)
+         {
+             Children[ID] = Parent.GetChild(ID);
+         }
+         return Children;
+     }
 }
