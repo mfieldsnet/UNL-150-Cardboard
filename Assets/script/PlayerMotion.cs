@@ -23,7 +23,10 @@ public class PlayerMotion : MonoBehaviour
         	//move back when player looks down by some degree which I'm not sure to the horizontal
         	
         	//Debug.Log(back + " " + Camera.main.transform.rotation.x);
-            transform.position = transform.position + back * (Camera.main.transform.forward * m_Speed * Time.deltaTime);
+        	Vector3 forwardHorizontally = Camera.main.transform.forward;
+        	forwardHorizontally.y = 0;
+
+            transform.position = transform.position + back * (forwardHorizontally * m_Speed * Time.deltaTime);
         }
     }
 }
